@@ -17,12 +17,15 @@ let appleX = 0;
 let appleY = 0;
 
 
+//bug
+let BugDirection = false;
 
 /*we draw the snake*/
 let snake = [ {x:140, y:150}, {x:130, y:150}, {x:120, y:150}, {x:110, y:150} ]
 
 function animation(){
     setTimeout(function(){
+        BugDirection = false;
 
         CleanCanvas();
 
@@ -31,6 +34,7 @@ function animation(){
         MoveTheSnakeForward();
         
         if(EndGame()){
+            restart();
            return;
         }
 
@@ -99,6 +103,11 @@ document.addEventListener('keydown', ToChangeDirection);
 function ToChangeDirection(event) {
   // console.log(event);
     
+
+ // AvoidTheBug
+
+ if(BugDirection) return;
+ BugDirection = true;
    
 const ARROW_LEFT = 37;
 const ARROW_RIGHT = 39;
@@ -174,3 +183,15 @@ function EndGame(){
 
     return gameOver;
 }
+
+
+function restart() {
+    const restart = document.getElementById('restart');
+    restart.style.display = "block";
+
+    document.addEventListener('keydown',(e) => {
+        if(e.keyCode === 32) {
+            document.location.reload(true);
+        }
+    })
+} 
